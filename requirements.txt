@@ -1,9 +1,8 @@
 psutil~=5.8.0
 requests~=2.31.0
-grpcio~=1.43.0
-protobuf~=3.19.4
+grpcio~=1.62.2
+protobuf~=4.21.12
 docker~=7.0.0
-dataclasses~=0.8; python_version < '3.7'
 typing-extensions>=4.9.0
 pydantic~=1.10.2
 pyelftools~=0.31
