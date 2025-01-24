@@ -19,6 +19,7 @@ import enum
 import os
 import re
 from collections import deque
+from functools import lru_cache
 from pathlib import Path
 from threading import Thread
 from typing import Callable, Collection, List, Optional, TypeVar, Union
@@ -271,6 +272,21 @@ def run_in_ns(
     else:
         assert exc is None
         return ret
+
+
+@lru_cache(maxsize=None)
+def is_root() -> bool:
+    return os.geteuid() == 0
+
+
+def run_in_ns_wrapper(
+    nstypes: List[str],
+    callback: Callable[[], T],
+    target_pid: int = 1,
+) -> T:
+    if is_root():
+        return run_in_ns(nstypes, callback, target_pid)
+    return callback()
 
 
 def get_mnt_ns_ancestor(process: Process) -> Process:

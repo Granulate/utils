@@ -26,7 +26,7 @@ from requests.exceptions import ConnectionError
 
 from granulate_utils.exceptions import BadResponseCode
 from granulate_utils.futures import call_in_parallel
-from granulate_utils.linux.ns import run_in_ns
+from granulate_utils.linux.ns import run_in_ns_wrapper
 from granulate_utils.metadata import Metadata
 
 METADATA_REQUEST_TIMEOUT = 5
@@ -229,7 +229,7 @@ def get_static_cloud_metadata(logger: Union[logging.LoggerAdapter, logging.Logge
         return None
 
     try:
-        metadata = run_in_ns(["net"], _fetch)
+        metadata = run_in_ns_wrapper(["net"], _fetch)
         if metadata is not None:
             return metadata
     except TimeoutError as exception:
